@@ -1,6 +1,7 @@
 const express = require('express')
 const mysql = require('mysql')
 const myconn = require('express-myconnection')
+var cors = require('cors')
 const routes = require('./routes')
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
@@ -27,6 +28,8 @@ const dboptions = {
 //middlewares--------------------------------
 app.use(myconn(mysql,dboptions,'single'))
 app.use(express.json())
+app.use(cors())
+
 app.get("/", (req,res) => {
     res.send('asdasasdasddasd')
 })
