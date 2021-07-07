@@ -1,7 +1,34 @@
-const app = require('./app')
+const express = require('express')
+const mysql = require('mysql')
+const myconn = require('express-myconnection')
+const routes = require('./routes')
 
-const mani = async () => {
-    await app.listen(4000)
-    console.log('Server on port 4000')
+const NODE_ENV = process.env.NODE_ENV || 'development'
+
+require('dotenv').config({
+    path: `.env.${NODE_ENV}`
+})
+const app = express()
+
+
+const main = async () => {
+    await app.listen(3001)
+    console.log('Server on port 3001')
 }
-mani()
+main()
+
+const dboptions = {
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: process.env.PASSWORD,
+    database: 'grass'
+}
+//middlewares--------------------------------
+app.use(myconn(mysql,dboptions,'single'))
+app.use(express.json())
+app.get("/", (req,res) => {
+    res.send('asdasasdasddasd')
+})
+
+app.use("/api", routes)
