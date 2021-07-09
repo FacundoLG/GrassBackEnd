@@ -16,7 +16,10 @@ routes.post("/", (req,res) => {
         if(err) return res.send(err)
         conn.query('INSERT INTO notes SET ?',[req.body],(err,rows) =>{
             if(err) return res.send(err)
-            res.json(rows)
+            conn.query('SELECT * FROM notes',(err,rows) =>{
+                if(err) return res.send(err)
+                res.json(rows)
+            })
         })
     })
 })
@@ -26,7 +29,10 @@ routes.delete("/", (req,res) => {
         if(err) return res.send(err)
         conn.query("DELETE FROM notes WHERE ?",[req.body],(err,rows) =>{
             if(err) return res.send(err)
-            res.json(rows)
+            conn.query('SELECT * FROM notes',(err,rows) =>{
+                if(err) return res.send(err)
+                res.json(rows)
+            })
         })
     })
 })
